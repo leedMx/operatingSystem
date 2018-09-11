@@ -1,0 +1,36 @@
+====================
+Personal log
+====================
+This is going to be my first OS, based initially on the youtube video series at
+ https://www.youtube.com/watch?v=1rnA6wpF0o4
+
+However, this is more of a personal exercise to get comfortable learning and using development tools
+Most people would see the project as a n00b idea because:
+I haven't really programmed anything worthwile yet
+I have never used the tools involved to create anythiing significant
+I have never managed an open source project
+I have spotty knowledge on all related subjects and no formal education on the matter
+
+Nevertheless, I think that's exactly why this project has to be done
+Is a "mostly focused" project 
+I like to learn on the go
+
+"...Knowing and not doing is ultimately not knowing..."
+
+====================
+I just downloaded port.h and port.cpp from github repo due to 2 main problems
+1.File in repo is quite different to the one on video
+2.I did try to make the one on video work but kept having errors at compilation due to assembler junk, will try to solve it trough stack overflow
+
+I will keep my versions as portb inside the project hoping i can actually make it work to understand what happened, I've been trying to troubleshoot it myself but no luck, the main problem so far is that i don't really understand what the constraints in asm command do.
+====================
+I'm back, rewrote the readme to be more effective.
+To be honest I don't quite remember where I left off or how does this works, I will look around and see if I can get back on track.
+Just noticed that according to git log I used my own portb, but is not reflected on any other log.
+Dang, I was a mess on my workflow, hopefully this will change.
+Included a summary of how to use makefiles, moved all into a src folder now logs are neatly on the upper level and readme is clearer.
+Set everything up to continue working, altought I will have to watch all the videos again, since I'm a bit lost
+I have 20 previous commits, most of them irrelevant, you can tell that I did not know how to use git back then.
+The repo was forked by what I assume is either another programmer who assumed he could handle more than what he really could do.
+I will delete the repo and restarted with todays state as the initial commit.
+====================
