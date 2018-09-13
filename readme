@@ -9,19 +9,7 @@ https://www.youtube.com/watch?v=1rnA6wpF0o4&list=PLHh55M_Kq4OApWScZyPl5HhgsTJS9M
 Special thanks to Viktor Engelmann for his effort
 
 ====================
-For convenience, you can create a bootable iso image.
-To create the iso get into the src directory and run:
-
-make [image].iso
-
-The image will be created outside src to prevent clutter.
-
---------------------
-
-Alternatively, you can just compile the kernel using:
-
-make kernel.bin
-
-And have a bootloader point to it.
-
+	cd src/
+	make grub
+	make disc
 ====================

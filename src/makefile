@@ -26,38 +26,36 @@
 # 		command $@ $<
 # To be interpreted as 
 #		command target.a objects.b
-# To prevent make from making a file you can use 
-#	.PHONY: rulename
-#	rulename: [dependencies]
-#		commands
-# That way you can call make rulename and run commands
 
 GPPPARAMS = -m32 -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-leading-underscore -fno-exceptions -fpermissive
 ASPARAMS = --32
 LDPARAMS = -melf_i386
 
-objects = loader.o kernel.o gdt.o portb.o
+objects = kernel.o loader.o
 
 %.o: %.cpp
 	g++ $(GPPPARAMS) -o $@ -c $<
 
-%.o: %.s
-	as $(ASPARAMS) -o $@ $<
-
+%.o:%.s 
+	as $(ASPARAMS) -o $@.o $<
 
 kernel.bin: linker.ld $(objects)
-	ld $(LDPARAMS) -T $< -o $@ $(objects)
+	ld $(LDPARAMS) -T  linker.ld -o iso/boot/$@ $(objects)
 
-%.iso:kernel.bin
-	mkdir iso
-	mkdir iso/boot
-	mkdir iso/boot/grub
-	cp $< iso/boot/
+disc: kernel.bin
+	grub-mkrescue --output=../disc.iso iso 
+
+grub:
+	-mkdir iso/
+	-mkdir iso/boot/
+	-mkdir iso/boot/grub/
+	rm iso/boot/grub/grub.cfg
 	echo 'set timeout=0' >> iso/boot/grub/grub.cfg
 	echo 'set default=0' >> iso/boot/grub/grub.cfg
 	echo 'menuentry "OS"{' >> iso/boot/grub/grub.cfg
 	echo '    multiboot /boot/kernel.bin' >> iso/boot/grub/grub.cfg
 	echo '    boot}' >> iso/boot/grub/grub.cfg
-	grub-mkrescue --output=../$@ iso
-	rm -rf iso
-	rm *.o
+
+run: 
+	(killall VirtualBox && sleep 1) || true
+	VirtualBox --startvm "TestMachine" &
