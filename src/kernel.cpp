@@ -1,12 +1,13 @@
 #include "types.h"
-
-extern "C" void kernelMain(void*,uint32_t);
+#include "gdt.h"
 
 void print(char*);
 
 extern "C" void kernelMain(	void* multiboot_structure,\
 							uint32_t magicnumber){
 	char text[80]= "Hello kernel";
+	
+	GlobalDescriptorTable gdt;
 
 	print(text);
 	while(1);

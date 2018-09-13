@@ -1,32 +1,26 @@
 #include "gdt.h"
 
 GlobalDescriptorTable::GlobalDescriptorTable()
-: nullSegmentSelector(0,0,0),
+:nullSegmentSelector(0,0,0),
 unusedSegmentSelector(0,0,0),
 codeSegmentSelector(0,64*1024*1024,0x9A),
-dataSegmentSelector(0,64*1024*1024,0x92)
-
-{
+dataSegmentSelector(0,64*1024*1024,0x92){
 	uint32_t i[2];
 	i[0] = sizeof(GlobalDescriptorTable) << 16;
 	i[1] = (uint32_t)this;
 
 	asm volatile("lgdt (%0)": :"p" (((uint8_t *) i)+2));
-
 }
 
 
-GlobalDescriptorTable::~GlobalDescriptorTable()
-{
+GlobalDescriptorTable::~GlobalDescriptorTable(){
 }
 
-uint16_t GlobalDescriptorTable::DataSegmentSelector()
-{
+uint16_t GlobalDescriptorTable::DataSegmentSelector(){
 	return (uint8_t*)&dataSegmentSelector - (uint8_t*)this;
 }
 
-uint16_t GlobalDescriptorTable::CodeSegmentSelector()
-{
+uint16_t GlobalDescriptorTable::CodeSegmentSelector(){
 	return (uint8_t*)&codeSegmentSelector - (uint8_t*)this;
 }
 
@@ -34,28 +28,14 @@ GlobalDescriptorTable::SegmentDescriptor::SegmentDescriptor(uint32_t base, uint3
 {
     uint8_t* target = (uint8_t*)this;
 
-    if (limit <= 65536)
-    {
-        // 16-bit address space
+    if (limit <= 65536){				//16 bit address
         target[6] = 0x40;
-    }
-    else
-    {
-/* 32-bit address space
-Now we have to squeeze the (32-bit) limit into 2.5 regiters (20-bit).
-This is done by discarding the 12 least significant bits, but this
-is only legal, if they are all ==1, so they are implicitly still there
-so if the last bits aren't all 1, we have to set them to 1, but this
-would increase the limit (cannot do that, because we might go beyond
-the physical limit or get overlap with other segments) so we have to
-compensate this by decreasing a higher bit (and might have up to
-4095 wasted bytes behind the used memory)*/
+    }else{								//32 bit address
 
-        if((limit & 0xFFF) != 0xFFF)
-            limit = (limit >> 12)-1;
+        if((limit & 0xFFF) != 0xFFF)	//last 12 bits are one?
+            limit = (limit >> 12) -1;	//Prevent overflow(4095 byte leak)
         else
             limit = limit >> 12;
-
        target[6] = 0xC0;
     }
 
@@ -70,12 +50,11 @@ compensate this by decreasing a higher bit (and might have up to
     target[4] = (base >> 16) & 0xFF;
     target[7] = (base >> 24) & 0xFF;
 
-    // Type
+    // Flags indicating segment type
     target[5] = type;
 }
 
-uint32_t GlobalDescriptorTable::SegmentDescriptor::Base()
-{
+uint32_t GlobalDescriptorTable::SegmentDescriptor::getBase(){
     uint8_t* target = (uint8_t*)this;
 
     uint32_t result = target[7];
@@ -86,8 +65,7 @@ uint32_t GlobalDescriptorTable::SegmentDescriptor::Base()
     return result;
 }
 
-uint32_t GlobalDescriptorTable::SegmentDescriptor::Limit()
-{
+uint32_t GlobalDescriptorTable::SegmentDescriptor::getLimit(){
     uint8_t* target = (uint8_t*)this;
 
     uint32_t result = target[6] & 0xF;
