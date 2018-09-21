@@ -16,11 +16,11 @@ dataSegmentSelector(0,64*1024*1024,0x92){
 GlobalDescriptorTable::~GlobalDescriptorTable(){
 }
 
-uint16_t GlobalDescriptorTable::DataSegmentSelector(){
+uint16_t GlobalDescriptorTable::get_DataSegmentSelector(){
 	return (uint8_t*)&dataSegmentSelector - (uint8_t*)this;
 }
 
-uint16_t GlobalDescriptorTable::CodeSegmentSelector(){
+uint16_t GlobalDescriptorTable::get_CodeSegmentSelector(){
 	return (uint8_t*)&codeSegmentSelector - (uint8_t*)this;
 }
 

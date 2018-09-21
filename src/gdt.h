@@ -8,8 +8,8 @@ class GlobalDescriptorTable{
 	public:
 	GlobalDescriptorTable();
 	~GlobalDescriptorTable();
-	uint16_t DataSegmentSelector();
-	uint16_t CodeSegmentSelector();
+	uint16_t get_DataSegmentSelector();
+	uint16_t get_CodeSegmentSelector();
 
 	class SegmentDescriptor	{
 		public:

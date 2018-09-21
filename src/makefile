@@ -31,16 +31,17 @@ GPPPARAMS = -m32 -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-leadi
 ASPARAMS = --32
 LDPARAMS = -melf_i386
 
-objects = kernel.o loader.o gdt.o port.o
+objects = kernel.o loader.o gdt.o port.o interrupts.o interruptStubs.o
 
 %.o: %.cpp
 	g++ $(GPPPARAMS) -o $@ -c $<
 
 %.o:%.s 
-	as $(ASPARAMS) -o $@.o $<
+	as $(ASPARAMS) -o $@ $<
 
 kernel.bin: linker.ld $(objects)
 	ld $(LDPARAMS) -T  linker.ld -o iso/boot/$@ $(objects)
+	rm *.o
 
 disc: kernel.bin
 	grub-mkrescue --output=../disc.iso iso 
