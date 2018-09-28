@@ -16,9 +16,15 @@ class Port8Bits : public Port{
 		Port8Bits(uint16_t);
 		~Port8Bits();
 
-		void writeAndWait(uint8_t);
 		void write(uint8_t);
 		uint8_t read();
+};
+
+class Port8BitsSlow : public Port8Bits{
+	public:
+	Port8BitsSlow(uint16_t);
+	~Port8BitsSlow();
+	inline void write(uint8_t);
 };
 
 #endif

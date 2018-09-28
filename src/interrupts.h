@@ -42,10 +42,10 @@ class InterruptManager{
 	static GateDescriptor idt[256];
 	uint16_t hardwareInterruptOffset = 0;
 
-	Port8Bits port_PIC_MasterCommand;
-	Port8Bits port_PIC_MasterData;
-	Port8Bits port_PIC_SlaveCommand;
-	Port8Bits port_PIC_SlaveData;
+	Port8BitsSlow port_PIC_MasterCommand;
+	Port8BitsSlow port_PIC_MasterData;
+	Port8BitsSlow port_PIC_SlaveCommand;
+	Port8BitsSlow port_PIC_SlaveData;
 	
 	private:
 	void setEntries(uint32_t);

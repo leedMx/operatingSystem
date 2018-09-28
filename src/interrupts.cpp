@@ -1,6 +1,5 @@
 #include "interrupts.h"
 
-
 void print(char*);
 
 InterruptManager::GateDescriptor InterruptManager::idt[256];
@@ -27,20 +26,20 @@ void InterruptManager::activateInterruptorFlag(){
 }
 
 void InterruptManager::port_PIC_config(){
-	port_PIC_MasterCommand.writeAndWait(0x11);
-	port_PIC_SlaveCommand.writeAndWait(0x11);
+	port_PIC_MasterCommand.write(0x11);
+	port_PIC_SlaveCommand.write(0x11);
 
-	port_PIC_MasterData.writeAndWait(hardwareInterruptOffset);
-	port_PIC_SlaveData.writeAndWait(hardwareInterruptOffset+8);
+	port_PIC_MasterData.write(hardwareInterruptOffset);
+	port_PIC_SlaveData.write(hardwareInterruptOffset+8);
 
-	port_PIC_MasterData.writeAndWait(0x04);
-	port_PIC_SlaveData.writeAndWait(0x02);
+	port_PIC_MasterData.write(0x04);
+	port_PIC_SlaveData.write(0x02);
 
-	port_PIC_MasterData.writeAndWait(0x01);
-	port_PIC_SlaveData.writeAndWait(0x01);
+	port_PIC_MasterData.write(0x01);
+	port_PIC_SlaveData.write(0x01);
 
-	port_PIC_MasterData.writeAndWait(0x00);
-	port_PIC_SlaveData.writeAndWait(0x00);
+	port_PIC_MasterData.write(0x00);
+	port_PIC_SlaveData.write(0x00);
 }
 
 void InterruptManager::loadInterruptDescriptorTable(){
