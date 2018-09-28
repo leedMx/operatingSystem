@@ -19,6 +19,5 @@ inline uint8_t Port8Bits::read(){
 }
 
 void Port8BitsSlow::write(uint8_t data){
-    asm volatile("outb %0 %1\n\t" : : "a" (data), "Nd" (portNumber) );
-    asm volatile("jmp 1f;1:jmp 1f; 1:");
+	writeSlow(data);
 }

@@ -7,12 +7,15 @@
 	.long FLAGS
 	.long CHECKSUM
 	
-.section .text
-.extern kernelMain
+.section .text				
+.extern kernelMain			
+.extern callConstructors	
 .global loader
 
 loader:
 	mov $kernel_stack, %esp	#Set the stack pointer 2Mib away
+
+	call callConstructors
 
 	push %eax				#Parameters sent via stack to kernelMain
 	push %ebx				#GRUB provided this information

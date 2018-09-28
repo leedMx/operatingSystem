@@ -24,7 +24,14 @@ class Port8BitsSlow : public Port8Bits{
 	public:
 	Port8BitsSlow(uint16_t);
 	~Port8BitsSlow();
-	inline void write(uint8_t);
+	void write(uint8_t);
+
+	protected:
+	inline void writeSlow(uint8_t _data){
+		asm ("outb %1 " : : "a" (_data), "Nd" (portNumber) );
+		asm volatile("jmp 1f;1:jmp 1f; 1:");
+	}
+
 };
 
 #endif

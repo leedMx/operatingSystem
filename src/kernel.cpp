@@ -1,6 +1,16 @@
 #include "types.h"
+#include "port.h"
 #include "gdt.h"
 #include "interrupts.h"
+
+// This section is needed for the linker to enable OOP
+typedef void (*constructor)();
+extern "C" constructor start_ctors;
+extern "C" constructor end_ctors;
+extern "C" void callConstructors(){
+	for(constructor*i = &start_ctors; i != &end_ctors ; i++)
+		(*i)();
+}
 
 void print(char*);
 
@@ -9,6 +19,8 @@ extern "C" void kernelMain(	void* multiboot_structure,\
 	char text[80]= "Hello kernel";
 	
 	GlobalDescriptorTable gdt;
+	InterruptManager interrupts(0x20,&gdt);
+	interrupts.activateInterruptorFlag();
 
 	print(text);
 	while(1);
