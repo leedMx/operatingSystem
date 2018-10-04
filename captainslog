@@ -18,3 +18,7 @@ I like to learn on the go
 "...Knowing and not doing is ultimately not knowing..."
 
 ====================
+
+I will put this project on pause, I think that the Object Oriented aspect of it is generating innecesary complexity that is hard for me to understand at the moment. 
+I don't like the lack of cleanliness of the code, mostly the excessive dependance on linking assembly and C++. I need to understand the linker scripting better, or be able to reduce the interdependence somehow.
+I will revisit this project right after I finish CS107 and CS108 from stanford. Which is exactly what I need.
